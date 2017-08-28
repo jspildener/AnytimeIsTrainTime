@@ -27,27 +27,37 @@ $("#submitTrain").on("click", function(event) {
         frequency: trainFrequency
     };
     database.ref().push(newTrain);
-    
-//make sure that submit train button works properly
+
+    //make sure that submit train button works properly
     console.log(newTrain.name);
     console.log(newTrain.destination);
     console.log(newTrain.time);
     console.log(newTrain.frequency);
 
-  $("#trainName").val("");
-  $("#destination").val("");
-  $("#trainTime").val("");
-  $("#trainFrequency").val("");
+    $("#trainName").val("");
+    $("#destination").val("");
+    $("#trainTime").val("");
+    $("#trainFrequency").val("");
 });
 
-database.ref().on("child_added", function(childSnapshot, prevChildKey){
+function getMinutesAway(newTime, newFrequency) {
+   
+    var diffTime = moment().diff(moment(newTime), "minutes");
+    var trainRemainder = diffTime % newFrequency;
+    var minutesAway = newFrequency - trainRemainder;
+    return minutesAway;
+}
+database.ref().on("child_added", function(childSnapshot, prevChildKey) {
+    var newTrain = childSnapshot.val().name;
+    var newDestination = childSnapshot.val().destination;
+    var newTime = moment(childSnapshot.val().time, "hh:mm");
+    var newFrequency = childSnapshot.val().frequency;
+    var minutesAway = getMinutesAway(newTime, newFrequency);
+    var arrivalTime = moment().add(minutesAway, "minutes");
+    var formattedTime = arrivalTime.format('LT');
+    console.log(minutesAway);
 
-var newTrain = childSnapshot.val().name;
-var newDestination = childSnapshot.val().destination;
-var newTime = childSnapshot.val().time;
-var newFrequency = childSnapshot.val().frequency;
+    $("#trainTable > tbody").append("<tr><td>" + newTrain + "</td><td>" + newDestination + "</td><td>" +
+        newFrequency + "</td><td>" + formattedTime + "</td><td>" + minutesAway + "</td></tr>");
 
-$("#trainTable > tbody").append("<tr><td>" + newTrain + "</td><td>" + newDestination + "</td><td>" +
-  newTime + "</td><td>" + newFrequency + "</td><td>");
-	
 });
