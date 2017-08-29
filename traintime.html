@@ -54,18 +54,21 @@
                             <div class="form-group">
                                 <label for="inputTrainName">Train Name</label>
                                 <input type="text" class="form-control" id="trainName" placeholder="">
+                                <span style="color:red; display: none;" id="nameError">Please provide a train name</span>
                             </div>
                             <div class="form-group">
                                 <label for="inputDestination">Destination</label>
                                 <input type="text" class="form-control" id="destination" placeholder="">
+                                <span style="color:red; display: none;" id="destinationError">Please provide a train destination</span>
                             </div>
                             <div class="form-group">
                                 <label for="inputTrainTime">First Train Time (HH:mm - military time)</label>
                                 <input type="text" class="form-control" id="trainTime" placeholder="">
+                                <span style="color:red; display: none;" id="timeError">Please provide a train time</span>
                             </div>
                             <div class="form-group">
                                 <label for="inputTrainFrequency">Frequency (min)</label>
-                                <input type="text" class="form-control" id="trainFrequency" placeholder="">
+                                <input type="text" class="form-control" id="trainFrequency" placeholder=""><span style="color:red; display: none;" id="frequencyError">Please provide a train frequency</span>
                             </div>
                             <button type="submit" class="btn btn-default" id="submitTrain">Submit</button>
                     </div>
