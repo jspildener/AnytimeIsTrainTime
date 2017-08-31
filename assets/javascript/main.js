@@ -10,30 +10,34 @@ var config = {
 firebase.initializeApp(config);
 var database = firebase.database();
 
+setInterval(function() {
+    $('.current-time').html(moment().format('hh:mm:ss A'))
+}, 1000);
+
 function validateInput(newTrain) {
-	$("#nameError").hide();
-	$("#destinationError").hide();
-	$("#timeError").hide();
-	$("#frequencyError").hide();
-   
-   var isValid = true;
+    $("#nameError").hide();
+    $("#destinationError").hide();
+    $("#timeError").hide();
+    $("#frequencyError").hide();
+
+    var isValid = true;
     if (newTrain.name == "") {
         $("#nameError").show();
         isValid = false;
     }
-        if (newTrain.destination == "") {
+    if (newTrain.destination == "") {
         $("#destinationError").show();
         isValid = false;
     }
-        if (newTrain.time == "") {
+    if (newTrain.time == "") {
         $("#timeError").show();
         isValid = false;
     }
-        if (newTrain.frequency == "") {
+    if (newTrain.frequency == "") {
         $("#frequencyError").show();
         isValid = false;
     }
- 
+
     return isValid;
 }
 
@@ -67,9 +71,11 @@ $("#submitTrain").on("click", function(event) {
         $("#destination").val("");
         $("#trainTime").val("");
         $("#trainFrequency").val("");
-    } else{
-    	clearErrors();
+    } else {
+        clearErrors();
     }
+
+
 });
 
 function getMinutesAway(newTime, newFrequency) {
@@ -90,6 +96,6 @@ database.ref().on("child_added", function(childSnapshot, prevChildKey) {
     console.log(minutesAway);
 
     $("#trainTable > tbody").append("<tr><td>" + newTrain + "</td><td>" + newDestination + "</td><td>" +
-        newFrequency + "</td><td>" + formattedTime + "</td><td>" + minutesAway + "</td></tr>");
+        newFrequency + "</td><td>" + formattedTime + "</td><td>" + minutesAway);
 
 });
